@@ -81,3 +81,7 @@ async def process_question(request: QuestionRequest):
 async def verify():
     print('FastAPI server started')
     return {'message': 'FastAPI server started'}
+
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the FastAPI application!"}
