@@ -10,10 +10,13 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: '*', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
+    origin: '*', // Allow all origins (only for development)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+    allowedHeaders: ['Authorization', 'Content-Type','headers'], // Allowed headers
+    credentials: true // Optional
 }));
+
+app.options('*', cors());
 
 // Routes
 app.use("/api/pdf", pdfRouter);

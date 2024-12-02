@@ -41,16 +41,19 @@ exports.uploadPdf = async (req, res) => {
 
 exports.askQuestion = async (req, res) => {
     try {
-        const { pdfId, question } = req.body;
+        const { pdfId, question } = req.body.body || req.body;
+        
+        console.log("Extracted pdfId:", pdfId);
+        console.log("Extracted question:", question);
 
         const pdf = await Pdf.findByPk(pdfId);
         if (!pdf) return res.status(404).json({ error: "PDF not found!" });
 
-        // Send the question and S3 URL to FastAPI
         const response = await axios.post(process.env.FASTAPI_URL, {
             url: pdf.s3Url,
             question,
         });
+        console.log('answer::',response.data.answer)
 
         res.json({ answer: response.data.answer });
     } catch (error) {

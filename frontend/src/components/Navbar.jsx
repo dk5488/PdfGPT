@@ -1,7 +1,7 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
 const Navbar = ({ onPDFUpload }) => {
-    
+    const token = useSelector((state) => state.setter.value);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {

@@ -1,20 +1,25 @@
 import React, { useState } from "react";
-
+import { apiConnector } from "../services/apiConnector";
+import { useSelector } from "react-redux";
 const ChatScreen = ({ activeChat, setUploadedPDFs }) => {
   const [input, setInput] = useState("");
+  const token = useSelector((state) => state.setter.value);
 
   const handleSendMessage = async () => {
     if (!activeChat || !input.trim()) return;
 
     try {
       // Send query to the API
-      const response = await fetch("/api/send-query", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chatId: activeChat.id, query: input }),
-      });
+      const response = await apiConnector(
+        "POST",
+        "/pdf/ask",
+        { body: { pdfId: activeChat.id, question: input } },
+        {
+          Authorization: `Bearer ${token}`, // Remove the nested headers object
+        }
+      );
 
-      const result = await response.json();
+      const result = response;
 
       // Update chat messages
       setUploadedPDFs((prev) =>
@@ -54,7 +59,9 @@ const ChatScreen = ({ activeChat, setUploadedPDFs }) => {
           <div
             key={index}
             className={`mb-4 p-3 rounded ${
-              msg.fromUser ? "bg-blue-100 text-blue-800 self-end" : "bg-gray-200"
+              msg.fromUser
+                ? "bg-blue-100 text-blue-800 self-end"
+                : "bg-gray-200"
             }`}
           >
             {msg.text}

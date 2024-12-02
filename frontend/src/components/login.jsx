@@ -25,11 +25,16 @@ const LoginForm = () => {
 
       if (response) {
         localStorage.setItem("authToken", response.token);
+        console.log("response token::",response.token)
+        
         dispatch(set(response.token));
+        console.log("login token::",response.token)
+
+        
         setEmail("");
         setPassword("");
         setError(null);
-
+        navigate("/");
         
       } else {
         throw new Error("Backend login failed");
@@ -38,6 +43,8 @@ const LoginForm = () => {
       setError(err.message);
     }
   };
+
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-orange-400 to-pink-400">

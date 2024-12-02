@@ -15,7 +15,7 @@ const App = () => {
     
     <Router>
 
-      <Navbar />
+      
 
 
       <Routes>

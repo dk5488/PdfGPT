@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ChatScreen from "./ChatScreen";
+import { apiConnector } from "../services/apiConnector";
+import { useSelector } from "react-redux";
 
 const App = () => {
   const [uploadedPDFs, setUploadedPDFs] = useState([]); // List of uploaded PDFs
   const [activeChat, setActiveChat] = useState(null); // Active PDF chat
+  const token = useSelector((state) => state.setter.value);
 
   const handlePDFUpload = async (pdfFile) => {
     try {
@@ -13,13 +16,22 @@ const App = () => {
       const formData = new FormData();
       formData.append("file", pdfFile);
 
-      const response = await fetch("/api/upload-pdf", {
-        method: "POST",
-        body: formData,
+      console.log("token before request::", token);
+      console.log("Headers sent:", {
+        Authorization: `Bearer ${token}`,
       });
 
-      const result = await response.json();
-      const newChat = { id: result.id, name: pdfFile.name, messages: [] };
+      const response = await apiConnector("POST", "/pdf/upload", formData, {
+        Authorization: `Bearer ${token}`, // Remove the nested headers object
+      });
+      console.log("Headers sent:", {
+        Authorization: `Bearer ${token}`,
+      });
+      console.log("Upload response: ", response);
+
+      //const result = await response.json();
+      console.log("pdf id::",response.pdfDetails.id)
+      const newChat = { id: response.pdfDetails.id, name: pdfFile.name, messages: [] };
       setUploadedPDFs((prev) => [...prev, newChat]);
       setActiveChat(newChat.id);
     } catch (error) {

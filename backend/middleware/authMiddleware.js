@@ -4,6 +4,8 @@ const { User } = require("../models/index"); // Adjust the import based on your 
 const authMiddleware = async (req, res, next) => {
     try {
         // Extract token from the Authorization header
+        console.log("All Headers:", req.headers);
+        
         const authHeader = req.headers.authorization;
         console.log("authHeader::",authHeader)
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
