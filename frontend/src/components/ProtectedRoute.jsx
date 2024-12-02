@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 export const ProtectedRoute = ({ children }) => {
   const authToken = useSelector((state) => state.setter.value);
   console.log("state token::",authToken)
-  if (!authToken) {
-    alert("Login First")
+  const localauthToken=localStorage.getItem("authToken")
+  if (!authToken && !localauthToken) {
+    //alert("Login First")
     return <Navigate to="/login" />;
   }
   

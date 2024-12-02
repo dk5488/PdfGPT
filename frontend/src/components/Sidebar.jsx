@@ -13,7 +13,7 @@ const Sidebar = ({ uploadedPDFs, activeChat, setActiveChat }) => {
             }`}
             onClick={() => setActiveChat(pdf.id)}
           >
-            {pdf.name}
+            {pdf.filename}
           </li>
         ))}
       </ul>

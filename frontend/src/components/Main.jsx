@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ChatScreen from "./ChatScreen";
@@ -8,7 +8,31 @@ import { useSelector } from "react-redux";
 const App = () => {
   const [uploadedPDFs, setUploadedPDFs] = useState([]); // List of uploaded PDFs
   const [activeChat, setActiveChat] = useState(null); // Active PDF chat
-  const token = useSelector((state) => state.setter.value);
+  const token = localStorage.getItem("authToken");
+
+  // Fetch PDFs only once on page load
+  useEffect(() => {
+    const fetchUploadedPDFs = async () => {
+      try {
+        if (!token) return; // Exit if no token is available
+
+        const response = await apiConnector("GET", "/pdf/latest", null, {
+          Authorization: `Bearer ${token}`,
+        });
+
+        console.log("Latest pdfs::",response)
+        // Assuming the API returns a list of PDFs
+        setUploadedPDFs(response.pdfs || []);
+        if (response.pdfs?.length > 0) {
+          setActiveChat(response.pdfs[0].id); // Set the first PDF as active chat by default
+        }
+      } catch (error) {
+        console.error("Error fetching PDFs:", error);
+      }
+    };
+
+    fetchUploadedPDFs();
+  }, [token]); // Only run on token change (login/logout)
 
   const handlePDFUpload = async (pdfFile) => {
     try {
@@ -16,24 +40,18 @@ const App = () => {
       const formData = new FormData();
       formData.append("file", pdfFile);
 
-      console.log("token before request::", token);
-      console.log("Headers sent:", {
-        Authorization: `Bearer ${token}`,
-      });
-
       const response = await apiConnector("POST", "/pdf/upload", formData, {
-        Authorization: `Bearer ${token}`, // Remove the nested headers object
-      });
-      console.log("Headers sent:", {
         Authorization: `Bearer ${token}`,
       });
-      console.log("Upload response: ", response);
 
-      //const result = await response.json();
-      console.log("pdf id::",response.pdfDetails.id)
-      const newChat = { id: response.pdfDetails.id, name: pdfFile.name, messages: [] };
+      // Dynamically update state without making another GET request
+      const newChat = {
+        id: response.pdfDetails.id,
+        name: pdfFile.name,
+        messages: [],
+      };
       setUploadedPDFs((prev) => [...prev, newChat]);
-      setActiveChat(newChat.id);
+      setActiveChat(newChat.id); // Set the newly uploaded PDF as active chat
     } catch (error) {
       console.error("Error uploading PDF:", error);
     }

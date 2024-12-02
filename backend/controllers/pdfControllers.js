@@ -61,3 +61,23 @@ exports.askQuestion = async (req, res) => {
         res.status(500).json({ error: "Error processing question!" });
     }
 };
+
+
+exports.getLatestPdfs = async (req, res) => {
+    try {
+        const { userId } = req; // Extract userId from auth middleware
+
+        // Fetch the latest 50 PDFs for the user
+        const pdfs = await Pdf.findAll({
+            where: { userId },
+            order: [["createdAt", "DESC"]], // Order by most recent
+            limit: 50, // Limit to 50 PDFs
+        });
+        
+
+        res.json({ pdfs });
+    } catch (error) {
+        console.error("Error fetching PDFs:", error);
+        res.status(500).json({ error: "Error fetching PDFs!" });
+    }
+};
