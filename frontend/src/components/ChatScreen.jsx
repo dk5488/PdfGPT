@@ -3,7 +3,7 @@ import { apiConnector } from "../services/apiConnector";
 
 const ChatScreen = ({ activeChat, setUploadedPDFs }) => {
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false); // For UI feedback
+  const [loading, setLoading] = useState(false); 
   const token = localStorage.getItem("authToken");
 
   const handleSendMessage = async () => {
@@ -14,7 +14,7 @@ const ChatScreen = ({ activeChat, setUploadedPDFs }) => {
       const response = await apiConnector(
         "POST",
         "/pdf/ask",
-        { pdfId: activeChat.id, question: input }, // Corrected body structure
+        { pdfId: activeChat.id, question: input }, 
         {
           Authorization: `Bearer ${token}`,
         }

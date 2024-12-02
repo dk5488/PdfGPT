@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { set } from "../state/tokenReducer.js"; // Import your Redux action
+import { set } from "../state/tokenReducer.js"; 
 
 const Navbar = ({ onPDFUpload }) => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const Navbar = ({ onPDFUpload }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      onPDFUpload(file); // Pass the file object to parent
+      onPDFUpload(file); 
     }
   };
 

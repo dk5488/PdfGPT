@@ -21,7 +21,7 @@ const App = () => {
         });
 
         console.log("Latest pdfs::",response)
-        // Assuming the API returns a list of PDFs
+        
         setUploadedPDFs(response.pdfs || []);
         if (response.pdfs?.length > 0) {
           setActiveChat(response.pdfs[0].id); // Set the first PDF as active chat by default

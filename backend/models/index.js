@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
 });
 
-// Define models here or import them after initializing `sequelize`
+
 const Pdf = sequelize.define("Pdf", {
     userId: { type: DataTypes.INTEGER, allowNull: false },
     filename: { type: DataTypes.STRING, allowNull: false },

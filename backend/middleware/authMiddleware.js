@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/index"); // Adjust the import based on your project structure
+const { User } = require("../models/index"); 
 
 const authMiddleware = async (req, res, next) => {
     try {
         // Extract token from the Authorization header
         console.log("All Headers:", req.headers);
-        
+
         const authHeader = req.headers.authorization;
         console.log("authHeader::",authHeader)
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -13,7 +13,7 @@ const authMiddleware = async (req, res, next) => {
         }
 
         const token = authHeader.split(" ")[1]; 
-        console.log("Extracted token::",token)// Extract the token
+        console.log("Extracted token::",token)
 
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

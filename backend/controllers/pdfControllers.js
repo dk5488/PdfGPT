@@ -65,7 +65,7 @@ exports.askQuestion = async (req, res) => {
 
 exports.getLatestPdfs = async (req, res) => {
     try {
-        const { userId } = req; // Extract userId from auth middleware
+        const { userId } = req; 
 
         // Fetch the latest 50 PDFs for the user
         const pdfs = await Pdf.findAll({

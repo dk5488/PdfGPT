@@ -33,7 +33,7 @@ llm = Gemini(
     model_name="models/gemini-1.5-pro-latest"
 )
 
-# Update global settings
+
 Settings.llm = llm
 Settings.embed_model = embed_model
 
@@ -48,7 +48,7 @@ async def process_question(request: QuestionRequest):
         # Download the file from the given URL
         print('Python controller is hit!')
         response = requests.get(request.url)
-        response.raise_for_status()  # Raise error if the request fails
+        response.raise_for_status()  
         
         pdf_content = response.content
 
@@ -68,8 +68,8 @@ async def process_question(request: QuestionRequest):
         )
 
         # Query the index with the user's question using a query engine
-        query_engine = index.as_query_engine()  # Create a query engine
-        answer = query_engine.query(request.question)  # Query using the engine
+        query_engine = index.as_query_engine() 
+        answer = query_engine.query(request.question) 
 
         return {"answer": str(answer)}
 

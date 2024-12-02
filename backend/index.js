@@ -10,10 +10,10 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: '*', // Allow all origins (only for development)
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
-    allowedHeaders: ['Authorization', 'Content-Type','headers'], // Allowed headers
-    credentials: true // Optional
+    origin: '*', // Allow all origins 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+    allowedHeaders: ['Authorization', 'Content-Type','headers'], 
+    credentials: true 
 }));
 
 app.options('*', cors());
