@@ -8,10 +8,14 @@ const Sidebar = ({ uploadedPDFs, activeChat, setActiveChat }) => {
         {uploadedPDFs.map((pdf) => (
           <li
             key={pdf.id}
-            className={`p-2 cursor-pointer rounded ${
-              pdf.id === activeChat ? "bg-blue-600 text-white" : "hover:bg-gray-200"
+            className={`p-2 cursor-pointer rounded flex items-center ${
+              pdf.id === activeChat
+                ? "bg-blue-600 text-white"
+                : "hover:bg-gray-200 text-gray-800"
             }`}
             onClick={() => setActiveChat(pdf.id)}
+            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} 
+            title={pdf.filename} 
           >
             {pdf.filename}
           </li>
