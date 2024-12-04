@@ -101,3 +101,11 @@ def query_pdf_content(pdf_text: str, question: str) -> str:
         return str(query_engine.query(question))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to process query: {e}")
+@app.get("/process")
+async def verify():
+    print('FastAPI server started')
+    return {'message': 'FastAPI server started'}
+
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the FastAPI application!"}
